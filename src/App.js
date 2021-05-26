@@ -1,19 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import "./App.css";
 import sound1 from "../src/sound.wav";
 
 const App = () => {
 
-  const sound = new Audio(sound1);
+  const [sound] = useState(new Audio(sound1));
   const [sliderValue, setSliderValue] = useState(120);
   const timer = useRef()
   const [isPlaying, setIsPlaying] = useState(false);
   const onChangeHandler = (e) => {
     setSliderValue(e.target.value)
   }
-  const playClick = () => {
+  const playClick = useCallback(() => {
     sound.play();
-  }
+  }, [sound]);
 
   const start = () => {
     if (isPlaying) {
@@ -22,7 +22,7 @@ const App = () => {
       setIsPlaying(true)
     }
   }
-
+  console.log(timer.current);
   useEffect(() => {
     if (isPlaying) {
       clearInterval(timer.current)
